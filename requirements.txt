@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+httpx
+aiogram==2.25.1
+sqlalchemy
+asyncpg
+python-dotenv
+apscheduler
+aiohttp
