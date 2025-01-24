@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  web:
+    build: .
+    container_name: fastapi_app
+    volumes:
+      - .:/app  # Для разработки, уберите в продакшн среде
+    ports:
+      - "8000:8000"  # Проброс порта для FastAPI
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://user:password@db:5432/products_db
+      - TELEGRAM_API_TOKEN=7598413210:AAE_lEjw-X20AT_WQE09Gd_FEqsvVGuoYMA
+    depends_on:
+      - db
+    restart: always
+
+  db:
+    image: postgres:13
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: products_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  postgres_data:
