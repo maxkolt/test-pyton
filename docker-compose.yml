@@ -14,6 +14,18 @@ services:
     depends_on:
       - db
     restart: always
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+  bot:
+    build: .
+    container_name: telegram_bot
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://user:password@db:5432/products_db
+      - TELEGRAM_API_TOKEN=7598413210:AAE_lEjw-X20AT_WQE09Gd_FEqsvVGuoYMA
+    depends_on:
+      - db
+    restart: always
+    command: python -m app.bot.main
 
   db:
     image: postgres:13
